@@ -1,0 +1,16 @@
+- name: collect network info
+  shell: nmcli device show {{ interface_1 }}
+  register: network_info
+- set_fact: ip4={{ network_info.stdout_lines[8].split()[-1] }}
+- set_fact: gw4={{ network_info.stdout_lines[9].split()[-1] }}
+- set_fact: dns4_1={{ network_info.stdout_lines[10].split()[-1] }}
+- set_fact: dns4_2={{ network_info.stdout_lines[11].split()[-1] }}
+
+- name: generate ifcfg-{{ interface_1 }}
+  template:
+    src: ifcfg-dev.j2
+    dest: /etc/sysconfig/network-scripts/ifcfg-{{ interface_1 }}
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart network

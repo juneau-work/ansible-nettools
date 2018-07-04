@@ -1,0 +1,12 @@
+[all:vars]
+ansible_user={{ vault_ansible_user }}
+ansible_password={{ vault_ansible_password }}
+ansible_connection=paramiko
+
+[seed]
+192.168.5.9
+
+[manager]
+
+[worker]
+192.168.5.16
