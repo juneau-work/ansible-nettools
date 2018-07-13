@@ -12,12 +12,12 @@ easy_install pip
 pip install ansible
 ```
 
-3. 下载dce_2.10 ansible playbook
+3. 下载ansible-nettools playbook
 ``` shell
-git clone https://github.com/juneau-work/dce_2.10
-cd dce_2.10
+git clone https://github.com/juneau-work/ansible-nettools
+cd ansible-nettools
 ```
-> 以下操作都以dce_2.10为basedir
+> 以下操作都以ansible-nettools为basedir
 
 4. 配置认证信息
 	- i. 复制以下内容生成vault.sh脚本
@@ -27,14 +27,10 @@ cd dce_2.10
 	echo $VAULT_ID > ~/.vault_pass.txt
 
 	ANSIBLE_USER='root' # ssh用户名
-	ANSIBLE_PASSWORD='root' # ssh用户密码
-	DCE_USER='admin' # 具有admin权限的dce认证用户
-	DCE_PASSWORD='admin' # 具有admin权限的dce认证用户密码
+	ANSIBLE_PASSWORD='dangerous' # ssh用户密码
 
 	ansible-vault encrypt_string --vault-id ~/.vault_pass.txt $ANSIBLE_USER --name 'vault_ansible_user' | tee dev/group_vars/vault
 	ansible-vault encrypt_string --vault-id ~/.vault_pass.txt $ANSIBLE_PASSWORD --name 'vault_ansible_password' | tee -a dev/group_vars/vault
-	ansible-vault encrypt_string --vault-id ~/.vault_pass.txt $DCE_USER --name 'vault_dce_user' | tee -a dev/group_vars/vault
-	ansible-vault encrypt_string --vault-id ~/.vault_pass.txt $DCE_PASSWORD --name 'vault_dce_password' | tee -a dev/group_vars/vault
 	EOF
 	```
 	**注意:** 请务必修改脚本中的ssh用户名密码及dce认证用户名密码与实际环境匹配
@@ -49,7 +45,7 @@ cd dce_2.10
    
    
 -------------------------------------------------------------------------------
-## ethernet ##
+## ethernet固定ip ##
 ```shell
 ansible-playbook -i dev/hosts --vault-password-file ~/.vault_pass.txt ethernet.yml
 ```
